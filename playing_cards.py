@@ -57,25 +57,21 @@ def deal_plr1():
         if(len(partial_deck)>0):
             test_card=drawcard(partial_deck)
             player_1.append(test_card)
-        print("player 1",player_1[k].card,player_1[k].suit)
-        print((player_1[k].card).value)
-
+        print("player 1",player_1[k].card,player_1[k].suit,(player_1[k].card).value)
     return player_1
 def deal_plr2():
     for k in range (0,3):
         if(len(partial_deck)>0):
             test_card=drawcard(partial_deck)
             player_2.append(test_card)
-        print("player 2",player_2[k].card,player_2[k].suit)
-        print((player_2[k].card).value)
+        print("player 2",player_2[k].card,player_2[k].suit,(player_2[k].card).value)
     return player_2
 def deal_plr3():
     for k in range (0,3):
         if(len(partial_deck)>0):
             test_card=drawcard(partial_deck)
             player_3.append(test_card)
-        print("player 3",player_3[k].card,player_3[k].suit)
-        print((player_3[k].card).value)
+        print("player 3",player_3[k].card,player_3[k].suit,(player_3[k].card).value)
     return player_3
 def deal_plr4():
     for k in range (0,3):
@@ -88,7 +84,6 @@ def deal_plr4():
 def sort_cards(list_comp):
     list_comp.sort(key=lambda x:(x.card).value)
     print([item.card for item in list_comp])
-
     return list_comp
 
 
