@@ -1,6 +1,8 @@
 from enum import Enum
 from enum import IntEnum
 from random import *
+import numpy as np
+
 full_deck=[]
 partial_deck=[]
 player_1=[]
@@ -11,6 +13,7 @@ player_3=[]
 plyr3=[]
 player_4=[]
 plyr4=[]
+pr=[]
 priority=0
 class Card(IntEnum):
     ACE =14
@@ -90,8 +93,8 @@ def sort_cards(list_comp):
     return list_comp
 
 def check(list_compare):
-    if(((list_compare[1].card).value)==((list_compare[2].card).value)):
-        if(((list_compare[2].card).value)==((list_compare[3].card).value)):
+    if(((list_compare[0].card).value)==((list_compare[1].card).value)):
+        if(((list_compare[1].card).value)==((list_compare[2].card).value)):
             print("all three equal")
             priority=1
         print("two cards equal")
@@ -100,10 +103,12 @@ def check(list_compare):
         for k in range(0,3):
             if(((list_compare[k].card).value)==14):
                 ((list_compare[k].card).value)==1
-        if((((list_compare[1].card).value)-1)==((list_compare[2].card).value)):
-            if((((list_compare[2].card).value)-1)==((list_compare[3].card).value)):
+        if((((list_compare[0].card).value)-1)==((list_compare[1].card).value)):
+            print(((list_compare[1].card).value)-1)
+            if((((list_compare[1].card).value)-1)==((list_compare[2].card).value)):
                 print("consecutive")
-            priority=3
+                priority=3
+        priority=0
     return priority
 
 def tie(temp_list) :
@@ -113,16 +118,40 @@ def tie(temp_list) :
         print("card is",(temp_list.card).value)
         return temp_list
 
-def check_tie(player_list):
-    m=3,n=2,o=1
-    for i in range (0,4):
-#checking the rules and setting priority as per the rules default priority =0
-        pr[i]=check(player_list[i])
-    for j in range (0,4):
-        for k in range(j+1,4):
-            if(pr[j]>pr[k]):
-                temp=pr[j]
-                temp_value=j+1
+def check_tie(priority_list,player_list):
+    values = np.priority_list
+    #if 3 cards same
+    searchval = 3
+    li = np.where(values == searchval)[0]
+    if(len(li)>1):
+        for l in range(len(li)):
+            c=li[l]
+            tie(player_list[c+1])
+    else:
+        #if 2 cards same
+        searchval = 2
+        li_2 = np.where(values == searchval)[0]
+        if(len(li_2)>1):
+            for l in range(len(li_2)):
+                c=li_2[l]
+                tie(player_list[c+1])
+        else:
+            #if consecutive
+            searchval = 1
+            li_3 = np.where(values == searchval)[0]
+            if(len(li_3)>1):
+                for l in range(len(li_3)):
+                    c=li_3[l]
+                    tie(player_list[c+1])
+            else:
+                #if no players gets any of the winning criteria
+                searchval = 0
+                li_4 = np.where(values == searchval)[0]
+                if(len(li_4)>1):
+                    for l in range(len(li_4)):
+                        c=li_4[l]
+                        tie(player_list[c+1])
+
 
 
 
@@ -137,9 +166,20 @@ player_1=deal_plr1()
 player_2=deal_plr2()
 player_3=deal_plr3()
 player_4=deal_plr4()
-
-
 #list of players in a list
-players[]=[player_1,player_2,player_3,player_4]
+players=[player_1,player_2,player_3,player_4]
+d=0
+while d<4:
+    pr[d]=check(players[d])
+    d=d+1
+
+
+
+check_tie(pr,players)
+
+
+
+
+
 #checking if tie, if tie then tie breaker
 #final winner - decision
