@@ -6,15 +6,13 @@ import numpy as np
 full_deck=[]
 partial_deck=[]
 player_1=[]
-plyr1=[]
 player_2=[]
-plyr2=[]
 player_3=[]
-plyr3=[]
 player_4=[]
-plyr4=[]
 pr=[]
 priority=0
+compare_tie=[]
+f=[]
 class Card(IntEnum):
     ACE =14
     KING =13
@@ -55,7 +53,10 @@ def createdeck():
 #draw single catd form deck
 def drawcard(deck):
     rand_card=randint(0, len(deck)-1)
-    return deck.pop(rand_card)
+    if(len(deck)>0):
+        return deck.pop(rand_card)
+    else:
+        return insufficient()
 
 #compare the values
 #append card to all the players in loop
@@ -95,18 +96,21 @@ def sort_cards(list_comp):
 def check(list_compare):
     if(((list_compare[0].card).value)==((list_compare[1].card).value)):
         if(((list_compare[1].card).value)==((list_compare[2].card).value)):
-            print("all three equal")
+            #print("all three equal")
             priority=1
-        print("two cards equal")
+        priority=2
+        #print("two cards equal")
+    elif(((list_compare[1].card).value)==((list_compare[2].card).value)):
+        #print("two cards equal")
         priority=2
     else:
         for k in range(0,3):
             if(((list_compare[k].card).value)==14):
-                ((list_compare[k].card).value)==1
+                if((((list_compare[1].card).value))==3 and ((list_compare[2].card).value)==2):
+                    priority=3
         if((((list_compare[0].card).value)-1)==((list_compare[1].card).value)):
-            print(((list_compare[1].card).value)-1)
             if((((list_compare[1].card).value)-1)==((list_compare[2].card).value)):
-                print("consecutive")
+                #print("consecutive")
                 priority=3
         priority=0
     return priority
@@ -114,19 +118,22 @@ def check(list_compare):
 def tie(temp_list) :
         print("draw single card from the deck")
         test_card=drawcard(partial_deck)
-        temp_list.append(test_card)
-        print("card is",(temp_list.card).value)
-        return temp_list
+        print("card is",(test_card.card).value)
+        return test_card
 
 def check_tie(priority_list,player_list):
-    values = np.priority_list
+    values = np.array(priority_list)
     #if 3 cards same
     searchval = 3
     li = np.where(values == searchval)[0]
     if(len(li)>1):
         for l in range(len(li)):
             c=li[l]
-            tie(player_list[c+1])
+            compare_tie.append(tie(player_list[c]))
+        if(len(li)==1):
+            winner(c+1)
+            #print("winner is player : ",c+1)
+
     else:
         #if 2 cards same
         searchval = 2
@@ -134,52 +141,87 @@ def check_tie(priority_list,player_list):
         if(len(li_2)>1):
             for l in range(len(li_2)):
                 c=li_2[l]
-                tie(player_list[c+1])
+                compare_tie.append(tie(player_list[c]))
+            if(len(li_2)==1):
+                winner(c+1)
+                #print("winner is player : ",c+1)
+
         else:
             #if consecutive
             searchval = 1
             li_3 = np.where(values == searchval)[0]
-            if(len(li_3)>1):
+            if(len(li_3)>0):
                 for l in range(len(li_3)):
                     c=li_3[l]
-                    tie(player_list[c+1])
+                    compare_tie.append(tie(player_list[c]))
+                if(len(li_3)==1):
+                    #print("winner is player : ",c+1)
+                    winner(c+1)
+
             else:
                 #if no players gets any of the winning criteria
                 searchval = 0
                 li_4 = np.where(values == searchval)[0]
-                if(len(li_4)>1):
+                if(len(li_4)==4):
                     for l in range(len(li_4)):
                         c=li_4[l]
-                        tie(player_list[c+1])
+                        compare_tie.append(tie(player_list[c]))
+    return compare_tie
 
 
+def compre_tie(compr_tie,plyrs):
+    max=(compr_tie[0].card).value
+    f[0]=0
+    for v in range (0,len(compr_tie)):
+        if(max<=(compr_tie[v].card).value ):
+            f[v]=v
+            max=(compr_tie[v].card).value
+            #print("winner is player : ",v+1)
+            winner(v+1)
+    if(len(f)>1):
+        for i in range(0,len(f)):
+            c=f[i]
+            tie(plyrs[c+1])
+    else:
+        x=f[0]
+        winner(v+1)
+        #print("winner is player : ",x+1)
 
 
+def winner(x):
+    print("winner is player : ",x+1)
+    deal()
+
+
+def insufficient():
+    if(len(partial_deck)==0):
+        print("insufficient cards in deck game over")
+
+
+#dealing cards to the players and returning sorted list
+def deal():
+    while len(partial_deck) > 0:
+        player_1=deal_plr1()
+        player_2=deal_plr2()
+        player_3=deal_plr3()
+        player_4=deal_plr4()
+        #list of players in a list
+        players=[player_1,player_2,player_3,player_4]
+        d=0
+        while d<4:
+            pr.append(check(players[d]))
+            d=d+1
+
+
+        #checking if tie, if tie then tie breaker
+        compare_tie=check_tie(pr,players)
+        compre_tie(compare_tie,players)
+    insufficient()
 
 
 #create deck
 createdeck()
+
 #creating deck for dealing cards
 partial_deck=list(full_deck)
-#dealing cards to the players and returning sorted list
-player_1=deal_plr1()
-player_2=deal_plr2()
-player_3=deal_plr3()
-player_4=deal_plr4()
-#list of players in a list
-players=[player_1,player_2,player_3,player_4]
-d=0
-while d<4:
-    pr[d]=check(players[d])
-    d=d+1
-
-
-
-check_tie(pr,players)
-
-
-
-
-
-#checking if tie, if tie then tie breaker
-#final winner - decision
+deal()
