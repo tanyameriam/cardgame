@@ -89,9 +89,16 @@ def deal_plr4():
         print("player 4",player_4[k].card,player_4[k].suit,(player_4[k].card).value)
     return sort_cards(player_4)
 
+#sort cards based on their values
 def sort_cards(list_comp):
     list_comp.sort(key=lambda x:(x.card).value, reverse=True)
     return list_comp
+
+#compare eacch card value to check the priorities
+# 3 : All equal
+# 2 : 2 cards equal
+# 1 : cards consequent
+# 0 : none of the above
 
 def check(list_compare):
     if(((list_compare[0].card).value)==((list_compare[1].card).value)):
@@ -115,12 +122,14 @@ def check(list_compare):
         priority=0
     return priority
 
+#draw a single card from the deck
 def tie(temp_list) :
         print("draw single card from the deck")
         test_card=drawcard(partial_deck)
         print("card is",(test_card.card).value)
         return test_card
 
+#passing the priority list and players list, to find the winner, if there is a tie passing to the tie() method for drwaing another card
 def check_tie(priority_list,player_list):
     values = np.array(priority_list)
     #if 3 cards same
@@ -168,34 +177,36 @@ def check_tie(priority_list,player_list):
                         compare_tie.append(tie(player_list[c]))
     return compare_tie
 
-
-def compre_tie(compr_tie,plyrs):
-    max=(compr_tie[0].card).value
+#if there is tie again in the priority list of the players draw single card again from the partial deck
+def again_compre_tie(tie_list_again, plyrs):
+    max=(tie_list_again[0].card).value
     f[0]=0
-    for v in range (0,len(compr_tie)):
-        if(max<=(compr_tie[v].card).value ):
-            f[v]=v
-            max=(compr_tie[v].card).value
+    for v in range(0, len(tie_list_again)):
+        if max <= (tie_list_again[v].card).value:
+            f[v]=v                  #f[] gets the maximum value of the list
+            max=(tie_list_again[v].card).value
+
+            if len(f) > 1:  # if again in the single card draw there is tie, pass to tie() to draw again for the respective players
+                for i in range(0, len(f)):
+                    c = f[i]  # to find the player number
+                    tie(plyrs[c + 1])  # calling the tie function with the player number
+            else:
+                winner(v + 1)
+                # print("winner is player : ",x+1)
             #print("winner is player : ",v+1)
             winner(v+1)
-    if(len(f)>1):
-        for i in range(0,len(f)):
-            c=f[i]
-            tie(plyrs[c+1])
-    else:
-        x=f[0]
-        winner(v+1)
-        #print("winner is player : ",x+1)
 
 
+#method to print winner
 def winner(x):
-    print("winner is player : ",x+1)
+    print("winner is player : ", x+1)
     deal()
 
-
+#to check if there is sufficient card for the next draw
 def insufficient():
     if(len(partial_deck)==0):
         print("insufficient cards in deck game over")
+        quit()    #quitting the game when there is insufficient cards in the deck
 
 
 #dealing cards to the players and returning sorted list
@@ -214,8 +225,8 @@ def deal():
 
 
         #checking if tie, if tie then tie breaker
-        compare_tie=check_tie(pr,players)
-        compre_tie(compare_tie,players)
+        compare_tie = check_tie(pr, players)
+        again_compre_tie(compare_tie, players)
     insufficient()
 
 
@@ -223,5 +234,5 @@ def deal():
 createdeck()
 
 #creating deck for dealing cards
-partial_deck=list(full_deck)
+partial_deck = list(full_deck)
 deal()
