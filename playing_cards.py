@@ -3,16 +3,16 @@ from enum import IntEnum
 from tie import *
 from utils import *
 
-full_deck=[]
-partial_deck=[]
-player_1=[]
-player_2=[]
-player_3=[]
-player_4=[]
-pr=[]
+full_deck=[]            #full original deck
+partial_deck=[]         #deck we are using
+player_1=[]             #players
+player_2=[]             #players
+player_3=[]             #players
+player_4=[]             #players
+pr=[]                   #priority list according to the rules
 priority=0
-compare_tie=[]
-f=[]
+compare_tie=[]          #if there is tie after checking the priorities we pass it to this list
+after_singlecard_draw=[] #if there is tie again after single card draw , it will be passed to this list
 
 #creating the full deck
 def createdeck():
@@ -31,7 +31,7 @@ class playingcards:
 def insufficient():
     if(len(partial_deck)==0):
         print("insufficient cards in deck game over")
-        quit()    #quitting the game when there is insufficient cards in the deck
+        quit()          #quitting the game when there is insufficient cards in the deck
 
 #compare the values
 #append card to all the players in loop

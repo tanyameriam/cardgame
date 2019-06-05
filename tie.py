@@ -55,15 +55,15 @@ def check_tie(priority_list,player_list):
 #if there is tie again in the priority list of the players draw single card again from the partial deck
 def again_compre_tie(tie_list_again, plyrs):
     max=(tie_list_again[0].card).value
-    f[0]=0
+    after_singlecard_draw[0]=0
     for v in range(0, len(tie_list_again)):
         if max <= (tie_list_again[v].card).value:
-            f[v]=v                  #f[] gets the maximum value of the list
+            after_singlecard_draw[v]=v                  #f[] gets the maximum value of the list
             max=(tie_list_again[v].card).value
 
-            if len(f) > 1:  # if again in the single card draw there is tie, pass to tie() to draw again for the respective players
-                for i in range(0, len(f)):
-                    c = f[i]  # to find the player number
+            if len(after_singlecard_draw) > 1:  # if again in the single card draw there is tie, pass to tie() to draw again for the respective players
+                for i in range(0, len(after_singlecard_draw)):
+                    c = after_singlecard_draw[i]  # to find the player number
                     tie(plyrs[c + 1])  # calling the tie function with the player number
             else:
                 winner(v + 1)
