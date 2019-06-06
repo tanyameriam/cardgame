@@ -3,6 +3,10 @@ from enum import IntEnum
 from random import *
 import numpy as np
 from playing_cards import *
+from static import *
+from tie import *
+
+priority=0
 
 class Card(IntEnum):
     ACE =14
@@ -30,10 +34,6 @@ class Suite(Enum):
 
 
 
-#sort cards based on their values
-def sort_cards(list_comp):
-    list_comp.sort(key=lambda x:(x.card).value, reverse=True)
-    return list_comp
 
 
 #compare eacch card value to check the priorities

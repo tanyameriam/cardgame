@@ -1,18 +1,13 @@
 from enum import Enum
 from enum import IntEnum
+from random import *
+import numpy as np
+from static import *
 from tie import *
 from utils import *
 
 full_deck=[]            #full original deck
-partial_deck=[]         #deck we are using
-player_1=[]             #players
-player_2=[]             #players
-player_3=[]             #players
-player_4=[]             #players
 pr=[]                   #priority list according to the rules
-priority=0
-compare_tie=[]          #if there is tie after checking the priorities we pass it to this list
-after_singlecard_draw=[] #if there is tie again after single card draw , it will be passed to this list
 
 #creating the full deck
 def createdeck():
@@ -42,6 +37,12 @@ def deal_plr(player,player_n):
             player_n.append(test_card)
         print(player,player_n[k].card,player_n[k].suit,(player_n[k].card).value)
     return sort_cards(player_n)
+
+
+#sort cards based on their values
+def sort_cards(list_comp):
+    list_comp.sort(key=lambda x:(x.card).value, reverse=True)
+    return list_comp
 
 #draw single catd form deck
 def drawcard(deck):
@@ -94,7 +95,6 @@ def deal():
         player_4.append(deal_plr("player4", player_4))
         #list of players in a list
         players=[player_1,player_2,player_3,player_4]
-        print(players)
         d=0
         while d<4:
             pr.append(check(players[d]))

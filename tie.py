@@ -3,6 +3,11 @@ from enum import IntEnum
 from random import *
 import numpy as np
 from playing_cards import *
+from static import *
+from utils import *
+
+after_singlecard_draw=[] #if there is tie again after single card draw , it will be passed to this list
+compare_tie=[]           #if there is tie after checking the priorities we pass it to this list
 
 #passing the priority list and players list, to find the winner, if there is a tie passing to the tie() method for drwaing another card
 def check_tie(priority_list,player_list):
