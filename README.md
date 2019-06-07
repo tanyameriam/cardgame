@@ -14,7 +14,27 @@ Victory:
 - If all else fails, the top card (by number value wins).
 - If the top card has the same value, each of the tied players draws a single card till a winner is found. Only the newly drawn cards are compared to decide a tie. The top card wins a tie.
 
+In the code:
+There are four modules Utils.py , Tie.py , playingcards,py ,static.py
 
+In playingcards.py
+1) creation of deck
+2) dealing cards to the players
+3)single card drawing function
+4)if insufficient cards quitting the game displaying insufficient cards
+
+in Tie.py
+1)checking tie after the first deal
+2)if equal priority passing to the singe card drawing function, to break the tie
+3)here highest facing card wins
+4)if again tie, draws single card and determines the winner .
+
+Utils.py
+1)class cards and suits declared
+2)checkign the priority according to the rules and priority is returned
+
+Static.py
+1)all the global variables declared
 
 
 
