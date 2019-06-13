@@ -1,66 +1,103 @@
-from enum import Enum
-from enum import IntEnum
+from service import *
 from random import *
-import numpy as np
-from playing_cards import *
-from static import *
 from tie import *
 
-priority=0
-
-class Card(IntEnum):
-    ACE =14
-    KING =13
-    QUEEN =12
-    JACK =11
-    TEN=10
-    NINE=9
-    EIGHT=8
-    SEVEN=7
-    SIX=6
-    FIVE=5
-    FOUR=4
-    THREE=3
-    TWO=2
-
-#enum for suits
-class Suite(Enum):
-    SPADES="spades"
-    CLUBS="clubs"
-    HEART="heart"
-    DIAMOND="diamond"
+cards_1 = []
+cards_2 = []
+cards_3 = []
+cards_4 = []
+tie_breaker = []
+tie_again = []
 
 
+player_1 = {
+    "card": [],
+    "priority": 0
+
+}             # players
+player_2 = {
+    "card": [],
+    "priority": 0
+
+}             # players
+player_3 = {
+    "card": [],
+    "priority": 0
+
+}             # players
+player_4 = {
+    "card": [],
+    "priority": 0
+
+}             # players
 
 
+# draw single card form deck
 
 
-
-#compare eacch card value to check the priorities
-# 3 : All equal
-# 2 : 2 cards equal
-# 1 : cards consequent
-# 0 : none of the above
-
-def check(list_compare):
-    if(((list_compare[0].card).value)==((list_compare[1].card).value)):
-        if(((list_compare[1].card).value)==((list_compare[2].card).value)):
-            #print("all three equal")
-            priority=1
-        priority=2
-        #print("two cards equal")
-    elif(((list_compare[1].card).value)==((list_compare[2].card).value)):
-        #print("two cards equal")
-        priority=2
+def drawcard(deck):
+    rand_card = randint(0, len(deck)-1)
+    if len(deck) > 0:
+        return deck.pop(rand_card)
     else:
-        for k in range(0,3):
-            if(((list_compare[k].card).value)==14):
-                if((((list_compare[1].card).value))==3 and ((list_compare[2].card).value)==2):
-                    priority=3
-        if((((list_compare[0].card).value)-1)==((list_compare[1].card).value)):
-            if((((list_compare[1].card).value)-1)==((list_compare[2].card).value)):
-                #print("consecutive")
-                priority=3
-        priority=0
-    return priority
+        return insufficient()
+
+# compare the values
+# append card to all the players in loop
+
+
+def deal_plr(player, player_n):
+    for k in range(0, 3):
+        if len(partial_deck) > 0:
+            test_card = drawcard(partial_deck)
+            player_n.append(test_card)
+        print(player, player_n[k].card, player_n[k].suit, player_n[k].card.value)
+    return sort_cards(player_n)
+
+
+#to check if there is sufficient card for the next draw
+def insufficient():
+    if(len(partial_deck)==0):
+        print(len(partial_deck))
+        print("insufficient cards in deck game over")
+        quit()          #quitting the game when there is insufficient cards in the deck
+
+
+# dealing cards to the players and returning sorted list
+
+
+def deal():
+    # while len(partial_deck) > 0:
+    cards_1.append(deal_plr("player1", cards_1))
+    player_1['card'] = cards_1
+    cards_2.append(deal_plr("player2", cards_2))
+    player_2['card'] = cards_2
+    cards_3.append(deal_plr("player3", cards_3))
+    player_3['card'] = cards_3
+    cards_4.append(deal_plr("player4", cards_4))
+    player_4['card'] = cards_4
+
+
+createdeck()
+partial_deck = list(full_deck)          # creating deck for dealing cards
+deal()
+check_tie(player_1)
+check_tie(player_2)
+check_tie(player_3)
+check_tie(player_4)
+players = [player_1, player_2, player_3, player_4]
+maximum_of_priority = priority_tie(players)
+while len(maximum_of_priority) > 1:
+    print(maximum_of_priority)
+    if len(maximum_of_priority) > 1:
+        for k in range(0, len(maximum_of_priority)):
+            test_card = drawcard(partial_deck)
+            tie_breaker.append(test_card)
+            j = maximum_of_priority[k]
+            print("card drawn by player", maximum_of_priority[k], tie_breaker[k].card,test_card.card.value)
+            players[j]['priority'] = tie_breaker[k].card.value
+            tie_again = players[j]
+    maximum_of_priority = priority_tie(tie_again)
+
+print("winner is player number : ", maximum_of_priority)
 

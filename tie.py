@@ -1,89 +1,46 @@
-from enum import Enum
-from enum import IntEnum
-from random import *
-import numpy as np
-from playing_cards import *
-from static import *
-from utils import *
 
-after_singlecard_draw=[] #if there is tie again after single card draw , it will be passed to this list
-compare_tie=[]           #if there is tie after checking the priorities we pass it to this list
+priority = []
+player_number = []
+def check_tie(player_cards):
+   if player_cards['card'][0].card.value == player_cards['card'][1].card.value:
+       if player_cards['card'][1].card.value == player_cards['card'][2].card.value:
+            player_cards['priority'] = 1
+       else:
+            player_cards['priority'] = 2
+   elif player_cards['card'][1].card.value == player_cards['card'][2].card.value:
+        player_cards['priority'] = 2
+   else:
+       for k in range(0, 3):
+           if player_cards['card'][k].card.value == 14:
+               if player_cards['card'][1].card.value == 3 and player_cards['card'][2].card.value == 2:
+                   player_cards['priority'] = 3
+       for k in range(0, 3):
+           if player_cards['card'][k].card.value != 14:
+               if player_cards['card'][0].card.value - 1 == player_cards['card'][1].card.value:
+                   if player_cards['card'][1].card.value - 1 == player_cards['card'][2].card.value:
+                        player_cards['priority'] = 3
 
-#passing the priority list and players list, to find the winner, if there is a tie passing to the tie() method for drwaing another card
-def check_tie(priority_list,player_list):
-    values = np.array(priority_list)
-    #if 3 cards same
-    searchval = 3
-    li = np.where(values == searchval)[0]
-    if(len(li)>1):
-        for l in range(len(li)):
-            c=li[l]
-            compare_tie.append(tie(player_list[c]))
-        if(len(li)==1):
-            winner(c+1)
-            #print("winner is player : ",c+1)
 
-    else:
-        #if 2 cards same
-        searchval = 2
-        li_2 = np.where(values == searchval)[0]
-        if(len(li_2)>1):
-            for l in range(len(li_2)):
-                c=li_2[l]
-                compare_tie.append(tie(player_list[c]))
-            if(len(li_2)==1):
-                winner(c+1)
-                #print("winner is player : ",c+1)
-
-        else:
-            #if consecutive
-            searchval = 1
-            li_3 = np.where(values == searchval)[0]
-            if(len(li_3)>0):
-                for l in range(len(li_3)):
-                    c=li_3[l]
-                    compare_tie.append(tie(player_list[c]))
-                if(len(li_3)==1):
-                    #print("winner is player : ",c+1)
-                    winner(c+1)
-
-            else:
-                #if no players gets any of the winning criteria
-                searchval = 0
-                li_4 = np.where(values == searchval)[0]
-                if(len(li_4)==4):
-                    for l in range(len(li_4)):
-                        c=li_4[l]
-                        compare_tie.append(tie(player_list[c]))
-    return compare_tie
-
-#if there is tie again in the priority list of the players draw single card again from the partial deck
-def again_compre_tie(tie_list_again, plyrs):
-    max=(tie_list_again[0].card).value
-    after_singlecard_draw[0]=0
-    for v in range(0, len(tie_list_again)):
-        if max <= (tie_list_again[v].card).value:
-            after_singlecard_draw[v]=v                  #f[] gets the maximum value of the list
-            max=(tie_list_again[v].card).value
-
-            if len(after_singlecard_draw) > 1:  # if again in the single card draw there is tie, pass to tie() to draw again for the respective players
-                for i in range(0, len(after_singlecard_draw)):
-                    c = after_singlecard_draw[i]  # to find the player number
-                    tie(plyrs[c + 1])  # calling the tie function with the player number
-            else:
-                winner(v + 1)
-                # print("winner is player : ",x+1)
-            #print("winner is player : ",v+1)
-            winner(v+1)
+def priority_tie(players_list):
+    for k in range(0, 4):
+        priority.append(players_list[k]['priority'])
+        maximum_priority = max(priority)
+    for k in range(0,4):
+        if maximum_priority == players_list[k]['priority']:
+            player_number.append(k+1)
+    return player_number
 
 
 
 
 
-#draw a single card from the deck
-def tie(temp_list) :
-        print("draw single card from the deck")
-        test_card=drawcard(partial_deck)
-        print("card is",(test_card.card).value)
-        return test_card
+
+
+
+
+
+
+
+
+
 
