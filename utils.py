@@ -87,17 +87,23 @@ check_tie(player_3)
 check_tie(player_4)
 players = [player_1, player_2, player_3, player_4]
 maximum_of_priority = priority_tie(players)
-while len(maximum_of_priority) > 1:
+count = 0
+while count < len(maximum_of_priority):
     print(maximum_of_priority)
     if len(maximum_of_priority) > 1:
         for k in range(0, len(maximum_of_priority)):
             test_card = drawcard(partial_deck)
             tie_breaker.append(test_card)
             j = maximum_of_priority[k]
-            print("card drawn by player", maximum_of_priority[k], tie_breaker[k].card,test_card.card.value)
+            print("card drawn by player", maximum_of_priority[k], tie_breaker[k].card, test_card.card.value)
+            print("players", players)
             players[j]['priority'] = tie_breaker[k].card.value
+            print("player[j] length", len(players[j]))
             tie_again = players[j]
+            print("only players j list (tie again )", len(tie_again))
+            count += 1
     maximum_of_priority = priority_tie(tie_again)
+
 
 print("winner is player number : ", maximum_of_priority)
 

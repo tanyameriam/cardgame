@@ -25,7 +25,7 @@ def priority_tie(players_list):
     for k in range(0, 4):
         priority.append(players_list[k]['priority'])
         maximum_priority = max(priority)
-    for k in range(0,4):
+    for k in range(0, 4):
         if maximum_priority == players_list[k]['priority']:
             player_number.append(k+1)
     return player_number
