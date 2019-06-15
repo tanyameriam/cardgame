@@ -22,14 +22,30 @@ def check_tie(player_cards):
 
 
 def priority_tie(players_list):
-    for k in range(0, 4):
+    player_number = []
+   # player_numbers_tie = priority_players_list
+    for k in range(0, len(players_list)):
         priority.append(players_list[k]['priority'])
         maximum_priority = max(priority)
-    for k in range(0, 4):
+   # for k in range(0, len(players_list)):
         if maximum_priority == players_list[k]['priority']:
-            player_number.append(k+1)
+           player_number.append(k+1)
     return player_number
 
+
+# def priority_tie_again(players_list,priority_players_list):
+#     player_number = []
+#     player_numbers_tie = priority_players_list
+#     for k in range(0, len(players_list)):
+#         priority.append(players_list[k]['priority'])
+#         maximum_priority = max(priority)
+#     for k in range(0, len(players_list)):
+#         if maximum_priority == players_list[k]['priority']:
+#            player_number.append(k+1)
+#            return player_number
+#         else:
+#            return player_numbers_tie[k+1]
+#
 
 
 
