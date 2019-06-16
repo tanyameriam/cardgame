@@ -8,7 +8,7 @@ cards_3 = []
 cards_4 = []
 tie_breaker = []
 tie_again = []
-new_players_list = []
+
 
 
 player_1 = {
@@ -80,41 +80,68 @@ def deal():
 
 
 def checking_tie_win(maximum_of_priority):
-    count = 0
-    if count < len(maximum_of_priority):
-        while count < len(maximum_of_priority):
-            print("maxim of priority ", maximum_of_priority)  # printing the prioirty list accornd to the player number
-            if len(maximum_of_priority) > 1:
-                for k in range(0, len(maximum_of_priority)):
-                    test_card = drawcard(partial_deck)  # drawing the single card to break the tie
-                    tie_breaker.append(test_card)  # appending thw test card ti the tie.breker list
-                    j = maximum_of_priority[k]  # the value passed to j to find the player number
-                    print("value of k", k)
-                    print("card drawn by player", j, tie_breaker[k].card, tie_breaker[k].card.value)
-                    players[j - 1]['priority'] = tie_breaker[k].card.value  # assigning the player[j] th dictionary priority value as the card value
-                    tie_again.append(players[j - 1])
-                    print("only players j list (tie again )", len(tie_again))
-                    count += 1
-            #  count += 1
-            new_players_list = priority_tie(tie_again)
-            if (len(new_players_list) > 1):
+    new_players_list = []
+    if len(maximum_of_priority) > 1:
+        while len(maximum_of_priority) > 1:
+            for k in range(0, len(maximum_of_priority)):
+                test_card = drawcard(partial_deck)  # drawing the single card to break the tie
+                tie_breaker.append(test_card)  # appending thw test card ti the tie.breker list
+                j = int(maximum_of_priority[k])  # the value passed to j to find the player number
+                print("value of k", k)
+                print("card drawn by player", j, tie_breaker[k].card, tie_breaker[k].card.value)
+                players[j]['priority'] = tie_breaker[k].card.value  # assigning the player[j] th dictionary priority value as the card value
+                tie_again.append(players[j])
+                print("only players j list (tie again )", len(tie_again))
+            if len(tie_again) > 1:
+                new_players_list.append(priority_tie(tie_again))
                 checking_tie_win(new_players_list)
-            print("winner is player number : players list ", new_players_list)
+
     else:
         print("winner is player number : maxim ", maximum_of_priority)
 
 
-createdeck()
-partial_deck = list(full_deck)          # creating deck for dealing cards
-deal()
-check_tie(player_1)
-check_tie(player_2)
-check_tie(player_3)
-check_tie(player_4)
-players = [player_1, player_2, player_3, player_4]                                              # total list of players
-maximum_of_priority = priority_tie(players)    #from tie.py we get the maximum priority(from the rules of the game)
 
 
-checking_tie_win(maximum_of_priority)
+    # count = 0
+    # if count < len(maximum_of_priority):
+    #     while count < len(maximum_of_priority):
+    #         print("maxim of priority ", maximum_of_priority)  # printing the prioirty list accornd to the player number
+    #         if len(maximum_of_priority) > 1:
+    #             for k in range(0, len(maximum_of_priority)):
+    #                 test_card = drawcard(partial_deck)  # drawing the single card to break the tie
+    #                 tie_breaker.append(test_card)  # appending thw test card ti the tie.breker list
+    #                 j = maximum_of_priority[k]  # the value passed to j to find the player number
+    #                 print("value of k", k)
+    #                 print("card drawn by player", j, tie_breaker[k].card, tie_breaker[k].card.value)
+    #                 players[j - 1]['priority'] = tie_breaker[k].card.value  # assigning the player[j] th dictionary priority value as the card value
+    #                 tie_again.append(players[j - 1])
+    #                 print("only players j list (tie again )", len(tie_again))
+    #                 count += 1
+    #         #  count += 1
+    #         new_players_list = priority_tie(tie_again)
+    #         if (len(new_players_list) > 1):
+    #             checking_tie_win(new_players_list)
+    #         print("winner is player number : players list ", new_players_list)
+    # else:
+    #     print("winner is player number : maxim ", maximum_of_priority)
+
+print("game start deal :y/n")
+while(input("y")):
+    createdeck()
+    partial_deck = list(full_deck)   # creating deck for dealing cards
+    while len(partial_deck) > 3:
+        print("dealing..")
+        deal()
+        check_tie(player_1)
+        check_tie(player_2)
+        check_tie(player_3)
+        check_tie(player_4)
+        players = [player_1, player_2, player_3, player_4]                                              # total list of players
+        maximum_of_priority = priority_tie(players)    #from tie.py we get the maximum priority(from the rules of the game)
+        checking_tie_win(maximum_of_priority)
+    print("insufficient cards in the deck")
+    quit()
+if(input("n")):
+        print("Quitting game..")
 
 

@@ -1,6 +1,3 @@
-
-priority = []
-player_number = []
 def check_tie(player_cards):
    if player_cards['card'][0].card.value == player_cards['card'][1].card.value:
        if player_cards['card'][1].card.value == player_cards['card'][2].card.value:
@@ -23,29 +20,16 @@ def check_tie(player_cards):
 
 def priority_tie(players_list):
     player_number = []
+    priority = []
    # player_numbers_tie = priority_players_list
     for k in range(0, len(players_list)):
         priority.append(players_list[k]['priority'])
         maximum_priority = max(priority)
-   # for k in range(0, len(players_list)):
-        if maximum_priority == players_list[k]['priority']:
-           player_number.append(k+1)
+    for j in range(0, len(players_list)):
+        if maximum_priority == players_list[j]['priority']:
+           player_number.append(j)
     return player_number
 
-
-# def priority_tie_again(players_list,priority_players_list):
-#     player_number = []
-#     player_numbers_tie = priority_players_list
-#     for k in range(0, len(players_list)):
-#         priority.append(players_list[k]['priority'])
-#         maximum_priority = max(priority)
-#     for k in range(0, len(players_list)):
-#         if maximum_priority == players_list[k]['priority']:
-#            player_number.append(k+1)
-#            return player_number
-#         else:
-#            return player_numbers_tie[k+1]
-#
 
 
 
