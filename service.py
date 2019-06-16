@@ -2,8 +2,7 @@ from enum import Enum
 from enum import IntEnum
 
 
-full_deck = []            # full original deck
-
+full_deck = []  # full original deck
 # enum for class cards
 
 
@@ -36,6 +35,7 @@ class playingcards:
     def __init__(self,cardvalue,cardsuit):
         self.card = cardvalue
         self.suit = cardsuit
+
 
 # creating deck
 def createdeck():
