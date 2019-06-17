@@ -1,27 +1,31 @@
 from service import *
 from random import *
 from tie import *
-
+import numpy
 
 
 player_1 = {
     "card": [],
-    "priority": 0
+    "priority": 0,
+    "name": 'abc'
 
 }             # players
 player_2 = {
     "card": [],
-    "priority": 0
+    "priority": 0,
+    "name": 'def'
 
 }             # players
 player_3 = {
     "card": [],
-    "priority": 0
+    "priority": 0,
+    "name": 'ghi'
 
 }             # players
 player_4 = {
     "card": [],
-    "priority": 0
+    "priority": 0,
+    "name": 'jkl'
 
 }             # players
 
@@ -81,13 +85,11 @@ def deal():
     player_4['card'] = cards_4
     player_4['priority'] = 0
 
-
+# diplayng the winner
 def display(announce_winner):
-
-    a = announce_winner
-    ar = numpy.array(a)
+    ar = numpy.array(announce_winner)
     print(ar + 1)
-   # print("winner is player number :  ", announce_winner)
+    print("winner is ", ar+1, "player number in the list..  ")
 
 
 def checking_tie_win(maximum_of_priority):
@@ -100,43 +102,46 @@ def checking_tie_win(maximum_of_priority):
                 test_card = drawcard(partial_deck)  # drawing the single card to break the tie
                 tie_breaker.append(test_card)  # appending thw test card ti the tie.breker list
                 j = maximum_of_priority[k]  # the value passed to j to find the player number
-                print("value of k", k)
-                print("card drawn by player", j, tie_breaker[k].card, tie_breaker[k].card.value)
                 players[j]['priority'] = tie_breaker[k].card.value  # assigning the player[j] th dictionary priority value as the card value
                 tie_again.append(players[j])
-                #print("only players j list (tie again )", len(tie_again))
+                ar = numpy.array(j)
+                ar = ar+1
+                print("card drawn by player", ar, tie_breaker[k].card, tie_breaker[k].card.value)
             if len(tie_again) > 1:
                 new_players_list.append(priority_tie(tie_again))
-                to_flatten_lists(new_players_list)
-                checking_tie_win(to_flatten_lists(new_players_list))
+                to_flatten_lists(new_players_list)   # flatten the list of list
+                checking_tie_win(to_flatten_lists(new_players_list))  # checking tie again and drawing the cards.
 
     else:
         display(maximum_of_priority)
 
 
 
-
-print("game start deal :y/n")
-while input() == 'y':
-    createdeck()
-    partial_deck = list(full_deck)   # creating deck for dealing cards
-    while len(partial_deck) > 3:
-        print("dealing..")
-        deal()
-        if len(partial_deck) > 3:
-            check_tie(player_1)
-            check_tie(player_2)
-            check_tie(player_3)
-            check_tie(player_4)
-            players = [player_1, player_2, player_3, player_4]                                              # total list of players
-            maximum_of_priority = priority_tie(players)    # from tie.py we get the maximum priority(from the rules of the game)
-
-            checking_tie_win(maximum_of_priority)
-        else:
-            insufficient()
-    print("insufficient cards in the deck")
+print("CARD GAME: CARD PRIORITY A > K > Q > J > 10...2")
+user_imp = input("Game start deal :y/n")
+if user_imp == 'n':
+    print("Quitting game..")
     quit()
-if input("n"):
-        print("Quitting game..")
+else:
+    if user_imp == 'y':
+        createdeck()
+        partial_deck = list(full_deck)   # creating deck for dealing cards
+        while len(partial_deck) > 3:
+            print("dealing..")
+            deal()
+            if len(partial_deck) > 3:
+                check_tie(player_1)
+                check_tie(player_2)
+                check_tie(player_3)
+                check_tie(player_4)
+                players = [player_1, player_2, player_3, player_4]                                              # total list of players
+                maximum_of_priority = priority_tie(players)    # from tie.py we get the maximum priority(from the rules of the game)
+
+                checking_tie_win(maximum_of_priority)
+            else:
+                insufficient()
+        print("insufficient cards in the deck")
+        quit()
+
 
 
