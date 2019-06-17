@@ -51,9 +51,11 @@ def sort_cards(list_comp):
 
 
 def to_flatten_lists(list_of_lists):
-    import itertools
-    list(itertools.chain(*list_of_lists))
-    return list_of_lists
+    flattened_list = []
+    for x in list_of_lists:
+        for y in x:
+            flattened_list.append(y)
+    return flattened_list
 
 
 

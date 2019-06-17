@@ -39,11 +39,14 @@ def drawcard(deck):
 
 
 def deal_plr(player, player_n):
-    for k in range(0, 3):
-        if len(partial_deck) > 0:
-            test_card = drawcard(partial_deck)
-            player_n.append(test_card)
-        print(player, player_n[k].card, player_n[k].suit, player_n[k].card.value)
+    if len(partial_deck) > 3:
+        for k in range(0, 3):
+            if len(partial_deck) > 0:
+                test_card = drawcard(partial_deck)
+                player_n.append(test_card)
+            print(player, player_n[k].card, player_n[k].suit, player_n[k].card.value)
+    else:
+        return insufficient()
     return sort_cards(player_n)
 
 
@@ -99,7 +102,7 @@ def checking_tie_win(maximum_of_priority):
             if len(tie_again) > 1:
                 new_players_list.append(priority_tie(tie_again))
                 to_flatten_lists(new_players_list)
-                checking_tie_win(new_players_list)
+                checking_tie_win(to_flatten_lists(new_players_list))
 
     else:
         display(maximum_of_priority)
