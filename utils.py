@@ -28,6 +28,13 @@ player_4 = {
     "name": 'Vic'
 
 }             # players
+
+print("4 PLAYERED GAME : ENTER NAMES\n")
+player_1['name'] = input("Enter player 1 name: \n")
+player_2['name'] = input("Enter player 2 name: \n")
+player_3['name'] = input("Enter player 3 name: \n")
+player_4['name'] = input("Enter player 4 name: \n")
+print(player_1['name'], "\n", player_2['name'], "\n", player_3['name'], "\n", player_4['name'], "\n")
 players_name = [player_1['name'], player_2['name'], player_3['name'], player_4['name']]
 
 
@@ -91,8 +98,6 @@ def deal():
 
 # diplayng the winner
 def display(announce_winner,players_name_list):
-    # ar = announce_winner  # numpy.array(announce_winner)
-    # ar = int(announce_winner)
     ar = int(announce_winner[0])
     print("winner is ", players_name_list[ar])
 
@@ -129,10 +134,8 @@ if user_imp == 'n':
     print("Quitting game..")
     quit()
 else:
-    print("player names:\n")
-    print(player_1['name'], "\n", player_2['name'], "\n", player_3['name'], "\n", player_4['name'], "\n")
 
-    if user_imp == 'y':
+   if user_imp == 'y':
         createdeck()
         partial_deck = list(full_deck)   # creating deck for dealing cards
         while len(partial_deck) > 3:
