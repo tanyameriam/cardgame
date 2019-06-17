@@ -1,7 +1,6 @@
 from enum import Enum
 from enum import IntEnum
 
-
 full_deck = []  # full original deck
 # enum for class cards
 
@@ -50,6 +49,11 @@ def sort_cards(list_comp):
     list_comp.sort(key=lambda x: x.card.value, reverse=True)
     return list_comp
 
+
+def to_flatten_lists(list_of_lists):
+    import itertools
+    list(itertools.chain(*list_of_lists))
+    return list_of_lists
 
 
 

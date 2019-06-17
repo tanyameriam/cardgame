@@ -86,7 +86,7 @@ def checking_tie_win(maximum_of_priority):
     tie_again = []
     new_players_list = []
     if len(maximum_of_priority) > 1:
-        while len(maximum_of_priority) > 1:
+        # while len(maximum_of_priority) > 1:
             for k in range(0, len(maximum_of_priority)):
                 test_card = drawcard(partial_deck)  # drawing the single card to break the tie
                 tie_breaker.append(test_card)  # appending thw test card ti the tie.breker list
@@ -98,6 +98,7 @@ def checking_tie_win(maximum_of_priority):
                 print("only players j list (tie again )", len(tie_again))
             if len(tie_again) > 1:
                 new_players_list.append(priority_tie(tie_again))
+                to_flatten_lists(new_players_list)
                 checking_tie_win(new_players_list)
 
     else:
