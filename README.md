@@ -19,3 +19,6 @@ In the code:
 There are three modules namingly, service.py,utils.py,tie,py
 
 The code is run from utils.py.
+
+-python 3.7.2
+ -numpy 1.16.4
