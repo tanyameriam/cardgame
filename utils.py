@@ -31,11 +31,19 @@ player_4 = {
 
 print("4 PLAYERED GAME : ENTER NAMES\n")
 player_1['name'] = input("Enter player 1 name: \n")
+while(player_1['name']==""):
+        player_1['name'] = input("Enter player 1 name (Should not be empty): \n")
 player_2['name'] = input("Enter player 2 name: \n")
+while(player_2['name']==""):
+        player_2['name'] = input("Enter player 2 name (Should not be empty): \n")
 player_3['name'] = input("Enter player 3 name: \n")
+while(player_3['name']==""):
+        player_3['name'] = input("Enter player 3 name (Should not be empty): \n")
 player_4['name'] = input("Enter player 4 name: \n")
+while(player_4['name']==""):
+        player_4['name'] = input("Enter player 4 name (Should not be empty): \n")
 print(player_1['name'], "\n", player_2['name'], "\n", player_3['name'], "\n", player_4['name'], "\n")
-players_name = [player_1['name'], player_2['name'], player_3['name'], player_4['name']]
+
 
 
 
@@ -101,17 +109,19 @@ def deal():
 
 
 # diplayng the winner
-def display(announce_winner, players_name_list):
+def display(announce_winner, players_name_list_of_diplay):
     ar = int(announce_winner[0])
-    print("winner is ", players_name_list[ar])
+    #print(ar)
+    print("winner is ", players_name_list_of_diplay[ar])
 
 
-def checking_tie_win(maximum_of_priority):
+def checking_tie_win(maximum_of_priority,players_name):
     tie_breaker = []
     tie_again = []
     new_players_list = []
     if len(maximum_of_priority) > 1:
         if len(partial_deck) > 3:
+            players_name = []
             for k in range(0, len(maximum_of_priority)):
                 test_card = drawcard(partial_deck)  # drawing the single card to break the tie
                 tie_breaker.append(test_card)  # appending thw test card ti the tie.breker list
@@ -119,20 +129,31 @@ def checking_tie_win(maximum_of_priority):
                 players[j]['priority'] = tie_breaker[k].card.value  # assigning the player[j] th dictionary priority value as the card value
                 tie_again.append(players[j])
                 ar = numpy.array(j)
-                ar = ar+1
-                print("card drawn by player", players[j]['name'], tie_breaker[k].card, tie_breaker[k].card.value)
+                #ar = ar+1
+                print("card drawn by player", players[j]['name'], tie_breaker[k].card)
+                players_name.append(players[j]['name'])
             if len(tie_again) > 1:
                 new_players_list.append(priority_tie(tie_again))
                 to_flatten_lists(new_players_list)   # flatten the list of list
-                checking_tie_win(to_flatten_lists(new_players_list))  # checking tie again and drawing the cards.
+                checking_tie_win(to_flatten_lists(new_players_list),players_name)  # checking tie again and drawing the cards.
 
     else:
-        players_name = [player_1['name'], player_2['name'], player_3['name'], player_4['name']]
         display(maximum_of_priority, players_name)
 
 
 
-print("CARD GAME: CARD PRIORITY A > K > Q > J > 10...2")
+print("""CARD GAME
+ CARD PRIORITY A > K > Q > J > 10...2
+ 
+Rules:
+
+Victory:
+- A trail (three cards of the same number) is the highest possible combination.
+- The next highest is a sequence  eg: A,2,3..and so on in the order order  K > Q > J > 10...2 > A
+- The next highest is a pair of cards (e.g.: two Kings or two 10s).
+- If all else fails, the top card wins.
+- If the top card has the same value, each of the tied players draws a single card till a winner is found.
+  Only the newly drawn cards are compared to decide a tie. The top card wins a tie. \n""")
 while (1):
     user_imp = input("Game start deal :y/n\n")
     if user_imp == 'n':
@@ -144,6 +165,7 @@ while (1):
                 # while len(partial_deck) > 11:
                 print("dealing..")
                 deal()
+                players_name = [player_1['name'], player_2['name'], player_3['name'], player_4['name']]
                 if len(partial_deck) > 11:
                     check_tie(player_1)
                     check_tie(player_2)
@@ -151,7 +173,7 @@ while (1):
                     check_tie(player_4)
                     players = [player_1, player_2, player_3, player_4]                                              # total list of players
                     maximum_of_priority = priority_tie(players)    # from tie.py we get the maximum priority(from the rules of the game)
-                    checking_tie_win(maximum_of_priority)
+                    checking_tie_win(maximum_of_priority,players_name)
                 else:
                     insufficient()
     else:
